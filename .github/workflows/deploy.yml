@@ -12,33 +12,35 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Setting up Nodejs envoirment
+      - name: Setting up Nodejs environment
         uses: actions/setup-node@v4
         with:
           node-version: 22.13.0
 
-      - name: Setup envoirment vars
+      - name: Setup environment vars
         run: echo "VITE_API_URL=${{vars.API_URL}}" >> $GITHUB_ENV
 
-      - name: Install requirements
+      - name: Install dependencies
         run: npm ci
 
-      - name: Build static files for vue
+      - name: Build static files for Vue
         run: npm run build
 
-      - name: Upload output as artifact
+      - name: Upload dist artifact
         uses: actions/upload-artifact@v4
         with:
           name: dist
           path: dist
+
   deploy:
     runs-on: ubuntu-latest
     needs: build
     steps:
-      - name: Download output artifact from te build process
+      - name: Download dist artifact
         uses: actions/download-artifact@v4
         with:
           name: dist
+          path: ./dist
 
       - name: Set up SSH
         run: |
@@ -55,10 +57,14 @@ jobs:
 
       - name: Deploy via rsync
         run: |
-          rsync -avz -e "ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -p 22" -r ./dist/* $UPLOAD_PATH --delete
+          ls -l ./dist  # optional, debug to see files
+          rsync -avz -e "ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -p 22" \
+            ./dist/* $UPLOAD_PATH --delete
 
-      - name: Build image and restart docker image
-        run: ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -p 22 $VPS "cd $DOCKER_COMPOSE_PATH && docker compose build && docker compose up -d"
+      - name: Build image and restart docker
+        run: ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -p 22 $VPS \
+          "cd $DOCKER_COMPOSE_PATH && docker compose build && docker compose up -d"
+
     env:
       SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
       VPS: "${{vars.VPS_USER}}@${{vars.VPS_HOST}}"
