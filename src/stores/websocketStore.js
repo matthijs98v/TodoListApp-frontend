@@ -9,7 +9,10 @@ export const useWebsocketStore = defineStore('websockets', () => {
 
     async function connect() {
         connection.value = new signalR.HubConnectionBuilder()
-            .withUrl(`${import.meta.env.VITE_API_URL}/todoHub`)
+            .withUrl(`${import.meta.env.VITE_API_URL}/todoHub`, {
+                skipNegotiation: true,
+                transport: signalR.HttpTransportType.WebSockets
+            })
             .withAutomaticReconnect()
             .build();
         
