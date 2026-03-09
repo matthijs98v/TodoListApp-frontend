@@ -1,0 +1,198 @@
+// Theme Colors
+$primary: lighten(#7373B3, 10%);
+$secondary: lighten(#7373B3, 30%);
+
+// $body-bg: #fafafa;
+// $header: darken($body-bg, 5%);
+
+// The breakpoints
+$grid-breakpoints: (
+  xs: 0,
+  sm: 576px,
+  md: 768px,
+  lg: 992px,
+  xl: 1200px,
+  xxl: 1400px
+);
+
+@import "bootstrap/scss/bootstrap";
+
+body {
+    display: flex;
+	min-height: 100vh;
+	flex-direction: column;
+	position: relative;
+}
+
+nav{
+    background-color: #7373B3;
+    .navbar-brand{
+        color: white;
+    }
+
+    .nav-item{
+        margin-left: 1rem;
+
+        .nav-link{
+            color: black;
+            &.active, &:hover{
+                color: $white;
+            }
+        }
+    }
+
+    img{
+        &.logo{
+            height: 48px;
+            width: auto;
+        }
+    }
+
+    //toggle
+    .navbar-toggler {
+        background: none !important;
+        border: 0;
+        padding: 0;
+        margin: 0;
+
+        &:focus,
+        &:active,
+        &:focus-visible {
+            outline: none !important;
+            box-shadow: none !important;
+        }
+
+        svg {
+            width: 3rem;
+            height: 3rem;
+
+            line {
+                stroke: white;
+                stroke-width: 2px;
+
+                transform-origin: 50%;
+                transition: transform .2s ease;
+
+                &:nth-child(1) {
+                    transform: translateY(-6px);
+                }
+
+                &:nth-child(2) {
+                    transform: scale(1);
+                }
+
+                &:nth-child(3) {
+                    transform: translateY(6px);
+                }
+            }
+        }
+
+        &:not(.collapsed) {
+            svg {
+                line {
+                    &:nth-child(1) {
+                        transform: rotate(45deg) translateY(0);
+                    }
+
+                    &:nth-child(2) {
+                        transform: scale(0,1);
+                    }
+
+                    &:nth-child(3) {
+                        transform: rotate(-45deg) translateY(0);
+                    }
+                }
+            }
+        }
+    }
+}
+
+.content-container {
+    min-height: 100vh;
+
+    .content {
+        margin-top: 4rem;
+    }
+}
+
+.card {
+    border: none;
+    background-color: white;
+}
+
+.btn {
+    .btn-primary {
+        color: white;
+    }
+}
+
+.btn-transparent {
+    padding: 0.25rem;
+    background-color: transparent;
+    outline: none;
+    border: none;
+    box-shadow: none;
+
+    &:hover,&:active {
+        color: $primary;
+    }
+}
+
+.side-menu {
+    display: flex;
+    background-color: darken(#7373B3, 10%);
+    width: 200px;
+    padding-top: 4rem;
+
+    a {
+        color: white;
+        &:active, &:hover {
+            color: black;
+        }
+    }
+}
+
+.bg-custom {
+    background-color: lighten($primary, 25%);
+}
+
+.cursor-pointer{
+  cursor: pointer;
+}
+
+// Fix for ugly outline
+input[type=checkbox], input[type=checkbox] {
+  &:focus {
+    outline: none;
+    box-shadow: none;
+  }
+}
+
+.logo {
+    display: flex;
+    width: 160px;
+    margin: 0 auto;
+    padding: 1rem 0;
+}
+
+.sort {
+    margin-top: 0;
+    margin-bottom: 0;
+    padding-left: 0;
+}
+
+.sortable-fallback,
+.sortable-drag {
+  opacity: 1 !important;
+  background: white !important;
+}
+
+/* placeholder in the list */
+.sortable-ghost {
+  opacity: 0 !important;
+  background: transparent !important;
+}
+
+// .sortable-fallback {
+//   box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+// }
