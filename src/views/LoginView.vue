@@ -24,7 +24,7 @@
               <RouterLink to="/register">No account yet?</RouterLink>
             </div>
             
-            <button type="submit" class="btn btn-primary">Login</button>
+            <button :disabled="loading" type="submit" class="btn btn-primary">{{loading ? "Loading..." : "Login"}}</button>
           </form>
         </div>
       </div>
@@ -42,6 +42,7 @@
   const name = ref("");
   const password = ref("");
   const errors = ref({});
+  const loading = ref(false);
   let router = useRouter();
 
   function loginUser() {
@@ -74,6 +75,7 @@
   }
 
   async function doRequest() {
+    loading.value = true;
     await axios.post(`${import.meta.env.VITE_API_URL}/api/auth/`, {}, {
       auth: {
         username: name.value,
@@ -91,6 +93,8 @@
     .catch(function (err) {
       errors.value.alert = err.response?.data.message;
       password.value = "";
+    }).finally(function () {
+      loading.value = false;
     });
   }
 </script>

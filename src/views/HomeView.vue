@@ -44,7 +44,7 @@
         @hidden="clearSelected"
       >
         <template #header>
-            <h1 class="modal-title fs-5" id="createTodoModalLabel">Create todo</h1>
+            <h1 class="modal-title fs-5" id="createTodoModalLabel">Update todo</h1>
         </template>
 
         <Alert v-if="errors?.alert">{{errors.alert}}</Alert>

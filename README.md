@@ -2,9 +2,11 @@
 
 This is the test client which provides a gui for interacting with the api
 
+This is the backend it uses, [Backend](https://github.com/matthijs98v/TodoListApp-backend)
+
 ## Features
 - Real time todo list
-- Add members to todolsit
+- Add members to todolist
 - Remove, update and add a todolist
 - Remove, update and add a todo item
 - Manage todolist members

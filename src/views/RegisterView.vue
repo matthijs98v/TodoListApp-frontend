@@ -33,7 +33,7 @@
               <RouterLink to="/login">Already an account?</RouterLink>
             </div>
 
-            <button type="submit" class="btn btn-primary">Register</button>
+            <button :disabled="loading" type="submit" class="btn btn-primary">{{loading ? "Registering..." : "Register"}}</button>
           </form>
         </div>
       </div>
@@ -51,6 +51,7 @@
   const password = ref("");
   const repeat_password = ref("");
   const errors = ref({});
+   const loading = ref(false);
 
   let router = useRouter();
 
@@ -71,6 +72,8 @@
     // Do the validation
     if  ( name.value == "" ) {
       errors.value.name = "Username is required";
+    } else if ( !name.value.match(/^[a-zA-Z0-9]+$/) ) {
+      errors.value.name = "Only letters and numbers are allowed for the username";
     }
 
     if ( email.value == "" ) {
@@ -99,6 +102,7 @@
   }
 
   function doRequest() {
+    loading.value = true;
     axios.post(`${import.meta.env.VITE_API_URL}/api/users/`, {
         Name : name.value,
         Email : email.value,
@@ -120,6 +124,8 @@
           errors.value[field] = err.response.data.Message;
           break;
       }
+    }).finally(function () {
+      loading.value = false;
     });
   }
 
