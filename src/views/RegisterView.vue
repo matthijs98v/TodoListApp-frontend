@@ -7,8 +7,8 @@
             <h1 class="text-center mb-3">Register</h1>
             <div class="mb-3">
               <label class="form-label" for="user">Username</label>
-              <input :class="{'is-invalid' : errors?.name}" class="form-control" v-model="name" type="text" placeholder="Name">
-              <div class="invalid-feedback">{{ errors?.name }}</div>
+              <input :class="{'is-invalid' : errors?.username}" class="form-control" v-model="username" type="text" placeholder="Name">
+              <div class="invalid-feedback">{{ errors?.username }}</div>
             </div>
 
             <div class="mb-3">
@@ -46,7 +46,7 @@
   import { ref } from 'vue';
   import axios from 'axios';
 
-  const name = ref("");
+  const username = ref("");
   const email = ref("");
   const password = ref("");
   const repeat_password = ref("");
@@ -70,10 +70,10 @@
     errors.value = {};
 
     // Do the validation
-    if  ( name.value == "" ) {
-      errors.value.name = "Username is required";
-    } else if ( !name.value.match(/^[a-zA-Z0-9]+$/) ) {
-      errors.value.name = "Only letters and numbers are allowed for the username";
+    if  ( username.value == "" ) {
+      errors.value.username = "Username is required";
+    } else if ( !username.value.match(/^[a-zA-Z0-9]+$/) ) {
+      errors.value.username = "Only letters and numbers are allowed for the username";
     }
 
     if ( email.value == "" ) {
@@ -104,7 +104,7 @@
   function doRequest() {
     loading.value = true;
     axios.post(`${import.meta.env.VITE_API_URL}/api/users/`, {
-        Name : name.value,
+        Name : username.value,
         Email : email.value,
         Password : password.value
     })
